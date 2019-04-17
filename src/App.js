@@ -1,23 +1,21 @@
 import React from 'react';
 import './App.css';
+import { withStyles } from '@material-ui/core/styles'
+import Grid from '@material-ui/core/Grid';
 import ProductCard from './ProductCard'
 import Header from './Header'
+import PRODUCTS from './products'
 
-const PRODUCTS = [
-  {
-    id: 1,
-    name: 'First',
-    price: 100,
-    description: `There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable.`
+const styles = {
+  products: {
+    paddingTop: 20
   },
-  {
-    id: 2,
-    name: 'Second',
-    price: 200,
-    description: `If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text. `
+  product: {
+    display: 'flex',
+    justifyContent: 'center',
+    marginBottom: 15
   }
-];
-
+}
 
 class App extends React.Component {
   state = {
@@ -36,25 +34,28 @@ class App extends React.Component {
   }
 
   render() {
+    const { classes } = this.props
 
     return (
       <>
         <Header />
-        <section>
+        <Grid container className={classes.products}>
           {PRODUCTS.map(product => (
-            <ProductCard
-              key={product.id}
-              id={product.id}
-              name={product.name}
-              price={product.price}
-              description={product.description}
-              addToCart={this.handleClick}
-            />
+            <Grid item xs={3} key={product.id} className={classes.product}>
+              <ProductCard
+                id={product.id}
+                image={product.imageURL}
+                name={product.name}
+                price={product.price}
+                description={product.description}
+                addToCart={this.handleClick}
+              />
+            </Grid>
           ))}
-        </section>
+        </Grid>
       </>
     );
   }
 }
 
-export default App;
+export default withStyles(styles)(App);
